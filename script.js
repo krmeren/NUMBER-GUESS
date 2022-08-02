@@ -14,14 +14,23 @@ let highScore = 0;
 let score = 20;
 let secretNumber = Math.trunc(Math.random() * 20) + 1;
 
+const againBtn = function () {
+  score = 20;
+  secretNumber = Math.trunc(Math.random() * 20) + 1;
+  displayMessage('Start guessing...');
+  document.querySelector('.score').textContent = score;
+  document.querySelector('.number').textContent = '?';
+  document.querySelector('.guess').value = null;
+  document.querySelector('body').style.backgroundColor = '#222';
+  document.querySelector('.number').style.width = '15rem';
+};
+
 const displayMessage = function (message) {
   document.querySelector('.message').textContent = message;
 };
 
 document.querySelector('.check').addEventListener('click', function () {
   const guess = Number(document.querySelector('.guess').value);
-
-  console.log(guess, typeof guess);
 
   //When there is no input
   if (!guess) {
@@ -42,23 +51,15 @@ document.querySelector('.check').addEventListener('click', function () {
   //WHEN GUESS IS WRONG
   else if (guess !== secretNumber) {
     if (score > 1) {
-      displayMessage(guess > secretNumber ? 'Too high!' : 'Too low!');
+      displayMessage(guess > secretNumber ? 'Try lower!' : 'Try higher!');
       score--;
       document.querySelector('.score').textContent = score;
     } else {
       displayMessage('You Lost!');
-      ocument.querySelector('.score').textContent = 0;
+      document.querySelector('.score').textContent = 0;
+      document.querySelector('body').style.backgroundColor = '#FF0000';
     }
   }
 });
 
-document.querySelector('.again').addEventListener('click', function () {
-  score = 20;
-  secretNumber = Math.trunc(Math.random() * 20) + 1;
-  displayMessage('Start guessing...');
-  document.querySelector('.score').textContent = score;
-  document.querySelector('.number').textContent = '?';
-  document.querySelector('.guess').value = null;
-  document.querySelector('body').style.backgroundColor = '#222';
-  document.querySelector('.number').style.width = '15rem';
-});
+document.querySelector('.again').addEventListener('click', againBtn);
